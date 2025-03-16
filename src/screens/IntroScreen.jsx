@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { Button } from '../components';
 
 export const IntroScreen = ({ navigation }) => {
   return (
@@ -12,12 +13,17 @@ export const IntroScreen = ({ navigation }) => {
         <Text style={styles.text}>Быстрое бронирование паркинга</Text>
       </View>
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonText}>Вход</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.btnWhite]} onPress={() => navigation.navigate('Register')}>
-          <Text style={[styles.buttonText, styles.buttonTextBlue]}>Новый аккаунт</Text>
-        </TouchableOpacity>
+        <Button 
+          text='Вход' 
+          navigate='Login' 
+          navigation={navigation} 
+        />
+        <Button 
+          text='Новый аккаунт' 
+          navigate='Register' 
+          navigation={navigation} 
+          isWhite 
+        />
       </View>
     </View>
   );
@@ -55,29 +61,6 @@ const styles = StyleSheet.create({
   },
   buttons: {
     width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
     gap: 14
   },
-  button: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 56,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#40b7aa',
-    backgroundColor: '#40b7aa',
-  },
-  btnWhite: {
-    backgroundColor: '#fff'
-  },
-  buttonText: {
-    fontWeight: 600,
-    fontSize: 16,
-    color: '#fff',
-  },
-  buttonTextBlue: {
-    color: '#40b7aa'
-  }
 });
