@@ -1,17 +1,24 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useTheme } from '@react-navigation/native';
 import { HomeScreen, ParkingScreen, AccountScreen } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
 export const MainTabs = () => {
+  const { colors } = useTheme();
+
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.blue,
+      }}
+    >
       <Tab.Screen
         name="Home" 
-        component={HomeScreen} 
+        component={HomeScreen}
         options={{ 
-          headerShown: false,
           title: 'Главная',
           tabBarIcon: ({ color }) => <MaterialIcons color={color} size={24} name='home' />,
         }}
@@ -20,7 +27,6 @@ export const MainTabs = () => {
         name="Parking" 
         component={ParkingScreen} 
         options={{ 
-          headerShown: false,
           title: 'Паркинг',
           tabBarIcon: ({ color }) => <MaterialIcons color={color} size={24} name='access-time' />,
         }}
@@ -29,7 +35,6 @@ export const MainTabs = () => {
         name="Account" 
         component={AccountScreen} 
         options={{ 
-          headerShown: false,
           title: 'Аккаунт',
           tabBarIcon: ({ color }) => <MaterialIcons color={color} size={24} name='person' />,
         }}

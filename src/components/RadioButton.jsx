@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 export const RadioButton = ({ label }) => {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
   const [isSelected, setSelected] = useState(false);
 
   const toggleSelected = () => {
@@ -18,7 +21,7 @@ export const RadioButton = ({ label }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -29,7 +32,7 @@ const styles = StyleSheet.create({
     width: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#40B7AA',
+    borderColor: colors.blue,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     borderRadius: 5,
-    backgroundColor: '#40B7AA',
+    backgroundColor: colors.blue,
   },
   label: {
     width: '100%',

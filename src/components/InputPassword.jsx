@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 export const InputPassword = () => {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
   const [isHidden, setHidden] = useState(true);
 
   const toggleVisibility = () => {
@@ -33,7 +36,7 @@ export const InputPassword = () => {
   )
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     position: 'relative',
     width: '100%'
@@ -41,13 +44,13 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 5,
-    color: '#000'
+    color: colors.black
   },
   input: {
     height: 56,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#d8dadc',
+    borderColor: colors.grey,
     paddingHorizontal: 16
   },
   eyeIcon: {

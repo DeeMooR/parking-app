@@ -1,7 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { Input, InputPassword, Button, Link, RadioButton } from '../components';
+import { useTheme } from '@react-navigation/native';
+import { Input, InputPassword, Button, Link } from '../components';
 
 export const LoginScreen = ({ navigation }) => {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Вход</Text>
@@ -29,12 +33,11 @@ export const LoginScreen = ({ navigation }) => {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
     width: '100%',
     paddingHorizontal: 19
   },
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     width: '100%',
     fontWeight: 700,
     fontSize: 34,
-    color: '#4d3e3e',
+    color: colors.brown,
     marginBottom: 26
   },
   fields: {

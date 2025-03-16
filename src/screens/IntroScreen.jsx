@@ -1,7 +1,11 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import { Button } from '../components';
 
 export const IntroScreen = ({ navigation }) => {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
+
   return (
     <View style={styles.container}>
       <Image
@@ -29,12 +33,11 @@ export const IntroScreen = ({ navigation }) => {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
     width: '100%',
     paddingHorizontal: 19
   },
@@ -51,13 +54,13 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     fontSize: 32,
     textAlign: 'center',
-    color: '#4d3e3e',
+    color: colors.brown,
     marginBottom: 4
   },
   text: {
     fontSize: 18,
     textAlign: 'center',
-    color: 'rgba(77, 62, 62, 0.7)'
+    color: colors.brownOpacity
   },
   buttons: {
     width: '100%',
