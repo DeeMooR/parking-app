@@ -1,14 +1,18 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-export const Input = ({ label, placeholder }) => {
+export const Input = ({ label, placeholder, value }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} placeholder={placeholder} />
+      <TextInput 
+        style={styles.input} 
+        placeholder={placeholder} 
+        value={value}
+      />
     </View>
   )
 }

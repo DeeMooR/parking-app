@@ -1,12 +1,13 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-export const Button = ({ text, navigate, navigation, isWhite = false }) => {
+export const Button = ({ text, navigate, navigation, onPress, style, isWhite = false }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
   const buttonStyle = [
     styles.button,
+    style,
     isWhite ? styles.btnWhite : null,
   ];
   const textStyle = [
@@ -14,8 +15,12 @@ export const Button = ({ text, navigate, navigation, isWhite = false }) => {
     isWhite ? styles.btnWhiteText : null,
   ];
 
+  const onTouch = () => {
+    onPress ? onPress() : navigation.navigate(navigate);
+  }
+
   return (
-    <TouchableOpacity style={buttonStyle} onPress={() => navigation.navigate(navigate)}>
+    <TouchableOpacity style={buttonStyle} onPress={onTouch}>
       <Text style={textStyle}>{text}</Text>
     </TouchableOpacity>
   )

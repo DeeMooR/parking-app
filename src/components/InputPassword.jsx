@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { useTheme } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-export const InputPassword = () => {
+export const InputPassword = ({ value }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const [isHidden, setHidden] = useState(true);
@@ -18,6 +18,7 @@ export const InputPassword = () => {
       <TextInput 
         style={styles.input} 
         placeholder='Ваш пароль'
+        value={value}
         secureTextEntry={isHidden}
         autoCapitalize="none"
         autoCorrect={false}
