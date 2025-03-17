@@ -11,6 +11,7 @@ const MyTheme = {
     black: '#2F2F2F',
     grey: '#d8dadc',
     blue: '#40B7AA',
+    blueOpacity: '#40B7AAb3',
     blueGrey: '#678e9692',
     brown: '#4D3E3E',
     brownOpacity: '#4d3e3eb3',

@@ -1,5 +1,6 @@
 export * from './Input';
 export * from './InputPassword';
+export * from './InputDate';
 export * from './Button';
 export * from './Link';
 export * from './RadioButton';
@@ -8,3 +9,6 @@ export * from './ModalQR';
 export * from './ModalDelete';
 export * from './History';
 export * from './HistoryItem';
+export * from './Places';
+export * from './PlaceItem';
+export * from './PlaceSample';

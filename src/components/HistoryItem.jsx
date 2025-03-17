@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { placeTypes } from '../data/config';
+import { placeRU } from '../data/config';
 
 export const HistoryItem = ({ item, index }) => {
   const { colors } = useTheme();
@@ -12,7 +12,7 @@ export const HistoryItem = ({ item, index }) => {
       <Text style={styles.index}>{index}.</Text>
       <View style={styles.content}>
         <Text style={styles.text}>{`${date} ${timeStart}.00 – ${timeEnd}.00`}</Text>
-        <Text style={styles.text}>{placeTypes[type]}</Text>
+        <Text style={styles.text}>{placeRU[type]}</Text>
       </View>
     </View>
   )
