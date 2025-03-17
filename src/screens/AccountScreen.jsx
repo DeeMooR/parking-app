@@ -1,10 +1,22 @@
-import { View, Text, StyleSheet } from 'react-native'; 
+import { useState } from 'react';
+import { View, StyleSheet } from 'react-native'; 
 import { useTheme } from '@react-navigation/native';
-import { Header, Button, Input, InputPassword } from '../components';
+import { Header, Button, Input, InputPassword, History, ModalDelete } from '../components';
 
-export const AccountScreen = ({ navigation }) => {
+export const AccountScreen = () => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
+  const [isOpenModal, setOpenModal] = useState(false);
+  
+  const onUpdate = () => {}
+  
+  const onDelete = () => {
+    setOpenModal(false);
+  }
+
+  const onExit = () => {
+    console.log('onExit')
+  }
 
   return (
     <View style={styles.container}>
@@ -12,29 +24,35 @@ export const AccountScreen = ({ navigation }) => {
         <Header text='Личный кабинет' />
       </View>
       <View style={styles.fields}>
-        <Input label='Имя' value='Дмитрий' />
-        <Input label='Почта' value='dmitry@gmail.com' />
-        <InputPassword value='password' />
+        <Input label='Имя' value='Дмитрий' isSmall />
+        <Input label='Почта' value='dmitry@gmail.com' isSmall />
+        <InputPassword value='password' isSmall />
       </View>
       <View style={styles.buttons}>
         <Button 
           text='Изменить' 
-          navigate='Parking' 
-          navigation={navigation}  
+          onPress={onUpdate}
           style={styles.btnChange}
+          isSmall
         />
         <Button 
-          text='Удалить' 
-          navigate='Parking' 
-          navigation={navigation} 
+          text='Удалить'
+          onPress={() => setOpenModal(true)}
           style={styles.btnDelete}
-          isGrey
+          isSmall
         />
       </View>
-      <View>
-        <Text style={styles.map__title}>Мы на карте</Text>
-        <Text style={styles.map__text}>Минск, ул. Петра Мстиславца, 11</Text>
-      </View>
+      <History />
+      <Button 
+        text='Выйти' 
+        onPress={onExit}
+        style={styles.btnExit}
+      />
+      <ModalDelete 
+        isOpen={isOpenModal} 
+        apply={onDelete} 
+        close={() => setOpenModal(false)} 
+      />
     </View>
   );
 }
@@ -42,11 +60,13 @@ export const AccountScreen = ({ navigation }) => {
 const createStyles = (colors) => StyleSheet.create({
   container: {
     width: '100%',
+    height: '100%',
     paddingHorizontal: 19,
-    marginTop: 60
+    marginTop: 60,
+    paddingBottom: 60,
   },
   header: {
-    marginBottom: 35
+    marginBottom: 22
   },
   fields: {
     gap: 12,
@@ -66,4 +86,12 @@ const createStyles = (colors) => StyleSheet.create({
     backgroundColor: colors.delete,
     borderColor: colors.delete,
   },
+  btnExit: {
+    width: 120,
+    height: 44,
+    marginLeft: 'auto',
+    backgroundColor: colors.blueGrey,
+    borderColor: colors.blueGrey,
+    marginBottom: 10
+  }
 });

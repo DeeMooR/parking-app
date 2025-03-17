@@ -5,3 +5,6 @@ export * from './Link';
 export * from './RadioButton';
 export * from './Header';
 export * from './ModalQR';
+export * from './ModalDelete';
+export * from './History';
+export * from './HistoryItem';

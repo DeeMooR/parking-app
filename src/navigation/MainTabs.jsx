@@ -12,6 +12,7 @@ export const MainTabs = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarStyle: { height: 80},
         tabBarActiveTintColor: colors.blue,
       }}
     >

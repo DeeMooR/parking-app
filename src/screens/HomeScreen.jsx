@@ -22,7 +22,6 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ModalQR isOpen={isOpenModal} close={closeModal} />
       <View style={styles.header}>
         <Header text='Привет, Дмитрий! 👋' />
       </View>
@@ -51,10 +50,10 @@ export const HomeScreen = ({ navigation }) => {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 53.93,
+          latitude: 53.9262,
           longitude: 27.652,
-          latitudeDelta: 0.009,
-          longitudeDelta: 0.004,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
         }}
         mapType='standard'
         showsCompass={false}
@@ -65,6 +64,7 @@ export const HomeScreen = ({ navigation }) => {
           description="Паркинг"
         />
       </MapView>
+      <ModalQR isOpen={isOpenModal} close={closeModal} />
     </View>
   );
 }

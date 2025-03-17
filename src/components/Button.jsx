@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-export const Button = ({ text, navigate, navigation, onPress, style, isWhite = false }) => {
+export const Button = ({ text, navigate, navigation, onPress, style, isWhite = false, isSmall = false }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
@@ -9,6 +9,7 @@ export const Button = ({ text, navigate, navigation, onPress, style, isWhite = f
     styles.button,
     style,
     isWhite ? styles.btnWhite : null,
+    isSmall ? styles.btmSmall : null,
   ];
   const textStyle = [
     styles.buttonText,
@@ -39,6 +40,9 @@ const createStyles = (colors) => StyleSheet.create({
   },
   btnWhite: {
     backgroundColor: colors.white
+  },
+  btmSmall: {
+    height: 50
   },
   buttonText: {
     fontWeight: 600,
