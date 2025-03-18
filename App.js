@@ -16,7 +16,7 @@ const MyTheme = {
     blueGrey: '#678e9692',
     brown: '#4D3E3E',
     brownOpacity: '#4d3e3eb3',
-    delete: '#DF5A5A'
+    red: '#DF5A5A'
   },
 };
 

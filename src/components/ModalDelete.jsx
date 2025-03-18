@@ -78,7 +78,7 @@ const createStyles = (colors) => StyleSheet.create({
   },
   btnApply: {
     flex: 1,
-    backgroundColor: colors.delete,
-    borderColor: colors.delete,
+    backgroundColor: colors.red,
+    borderColor: colors.red,
   }
 });

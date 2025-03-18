@@ -76,12 +76,10 @@ export const getBusyPlaces = (date, timeStart, timeEnd) => {
   const newTimeEnd = getOnlyTime(timeEnd);
   let times = generateTimeIntervals(newTimeStart, newTimeEnd);
   
-  if (checkIsMidnight(timeStart) && checkIsMidnight(timeEnd)) {
-    times = generateTimeIntervals('00:00', '24:00');
+  if (checkIsMidnight(timeEnd)) {
+    times = generateTimeIntervals(newTimeStart, '24:00');
   }
-  if (!checkIsMidnight(timeStart) && checkIsMidnight(timeEnd)) {
-    times = generateTimeIntervals(timeStart, '24:00');
-  }
+  console.log(times)
   
   let busyPlaces = new Set();
   const obj = dates[newDate];
@@ -92,4 +90,14 @@ export const getBusyPlaces = (date, timeStart, timeEnd) => {
     if (places) busyPlaces = new Set([...busyPlaces, ...places]);
   })
   return busyPlaces;
+}
+
+export const compareTimes = (timeStart, timeEnd) => {
+  const [startHours, startMinutes] = getOnlyTime(timeStart).split(':').map(Number);
+  const [eHours, endMinutes] = getOnlyTime(timeEnd).split(':').map(Number);
+  let endHours = (eHours === 0 && startMinutes === 0) ? 24 : eHours;
+
+  if (startHours > endHours) return false;
+  if (startHours === endHours && startMinutes >= endMinutes) return false;
+  return true;
 }

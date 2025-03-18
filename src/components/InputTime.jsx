@@ -3,13 +3,22 @@ import { SafeAreaView, Text, StyleSheet } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from '@react-navigation/native';
 import { AppContext } from '../providers/AppProvider';
-import { checkIsMidnight } from '../data/helpers';
+import { compareTimes, getBusyPlaces } from '../data/helpers';
 
 export const InputTime = ({ label, isStart }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const {timeStart, setTimeStart, timeEnd, setTimeEnd, setSelectedPlace} = useContext(AppContext);
+  const {date, timeStart, setTimeStart, timeEnd, setTimeEnd, setSelectedPlace, setTimeError, setBusyPlaces} = useContext(AppContext);
   const time = isStart ? timeStart : timeEnd;
+
+  useEffect(() => {
+    const isCorrect = compareTimes(timeStart, timeEnd);
+    if (!isCorrect) setTimeError('Неправильно указан промежуток времени');
+    else setTimeError(null);
+
+    const busySet = isCorrect ? getBusyPlaces(date, timeStart, timeEnd) : new Set();
+    setBusyPlaces(busySet);
+  }, [date, timeStart, timeEnd])
 
   const onChange = (_, selectedDate) => {
     setSelectedPlace(null);
@@ -17,9 +26,6 @@ export const InputTime = ({ label, isStart }) => {
     else setTimeEnd(selectedDate);
   };
 
-  const minDate = !checkIsMidnight(timeStart) ? new Date(timeStart.getTime() + 1800000) : null;
-  const maxDate = !checkIsMidnight(timeEnd) ? new Date(timeEnd.getTime() - 1800000) : null;
- 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -29,8 +35,6 @@ export const InputTime = ({ label, isStart }) => {
         mode='time'
         onChange={onChange}
         minuteInterval={30}
-        minimumDate={!isStart && minDate}
-        maximumDate={isStart && maxDate}
         accentColor={colors.blue}
         style={styles.datePicker}
       />

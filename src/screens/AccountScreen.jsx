@@ -81,8 +81,8 @@ const createStyles = (colors) => StyleSheet.create({
   },
   btnDelete: {
     flex: 1,
-    backgroundColor: colors.delete,
-    borderColor: colors.delete,
+    backgroundColor: colors.red,
+    borderColor: colors.red,
   },
   btnExit: {
     width: 120,

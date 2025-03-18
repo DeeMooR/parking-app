@@ -1,11 +1,14 @@
+import { useContext } from 'react'
 import { View, Text, StyleSheet } from 'react-native'; 
 import { useTheme } from '@react-navigation/native';
 import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
 import { COUNT_PLACES } from '../data/config';
+import { AppContext } from '../providers/AppProvider';
 
 export const ParkingScreen = () => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
+  const { timeError, busyPlaces, selectedPlace } = useContext(AppContext);
 
   const onBook = () => {}
 
@@ -23,8 +26,8 @@ export const ParkingScreen = () => {
         <PlaceSample text='выбрано' isActive />
       </View>
       <View style={styles.free_places}>
-        <Text style={styles.free}>Свободно: {COUNT_PLACES - 0}</Text>
-        <Text style={styles.busy}>Занято: {0}</Text>
+        <Text style={styles.free}>Свободно: {COUNT_PLACES - busyPlaces.size}</Text>
+        <Text style={styles.busy}>Занято: {busyPlaces.size}</Text>
       </View>
       <View style={styles.inputs}>
         <InputDate />
@@ -33,6 +36,11 @@ export const ParkingScreen = () => {
           <Text style={styles.inputs__line}>–</Text>
           <InputTime />
         </View>
+      </View>
+      <View style={styles.time__error}>
+        {timeError &&
+          <Text style={styles.error__text}>{timeError}</Text>
+        }
       </View>
       <Button 
         text='Забронировать место'
@@ -65,7 +73,7 @@ const createStyles = (colors) => StyleSheet.create({
     marginBottom: 30
   },
   free_places: {
-    marginBottom: 23
+    marginBottom: 26
   },
   free: {
     fontWeight: 500,
@@ -81,7 +89,7 @@ const createStyles = (colors) => StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     gap: 35,
-    marginBottom: 25
+    marginBottom: 8
   },
   inputs__time: {
     flexDirection: 'row',
@@ -90,6 +98,14 @@ const createStyles = (colors) => StyleSheet.create({
   inputs__line: {
     fontSize: 20,
     paddingTop: 29
+  },
+  time__error: {
+    height: 18,
+    marginBottom: 15
+  },
+  error__text: {
+    fontSize: 14,
+    color: colors.red,
   },
   btnBook: {
     width: 220
