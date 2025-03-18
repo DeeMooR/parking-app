@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'; 
 import { useTheme } from '@react-navigation/native';
-import { Header, Button, Places, PlaceSample } from '../components';
+import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
 import { countFreePlaces, countBusyPlaces } from '../data/helpers';
 
 export const ParkingScreen = () => {
@@ -26,8 +26,13 @@ export const ParkingScreen = () => {
         <Text style={styles.free}>Свободно: {countFreePlaces()}</Text>
         <Text style={styles.busy}>Занято: {countBusyPlaces()}</Text>
       </View>
-      <View style={styles.fields}>
-        {/* <InputDate /> */}
+      <View style={styles.inputs}>
+        <InputDate />
+        <View style={styles.inputs__time}>
+          <InputTime label='Время' />
+          <Text style={styles.inputs__line}>–</Text>
+          <InputTime />
+        </View>
       </View>
       <Button 
         text='Забронировать место'
@@ -72,11 +77,19 @@ const createStyles = (colors) => StyleSheet.create({
     fontSize: 16,
     color: colors.black
   },
-  fields: {
+  inputs: {
     width: '100%',
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 21
+    gap: 35,
+    marginBottom: 25
+  },
+  inputs__time: {
+    flexDirection: 'row',
+    gap: 10
+  },
+  inputs__line: {
+    fontSize: 20,
+    paddingTop: 29
   },
   btnBook: {
     width: 220

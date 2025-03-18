@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-export const Input = ({ label, placeholder, value, isSmall }) => {
+export const Input = ({ label, placeholder, value, onPress, isSmall }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
@@ -17,6 +17,8 @@ export const Input = ({ label, placeholder, value, isSmall }) => {
         style={inputStyle} 
         placeholder={placeholder} 
         value={value}
+        onPress={onPress}
+        readOnly={!!onPress}
       />
     </View>
   )

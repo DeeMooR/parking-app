@@ -7,6 +7,12 @@ export const compareDates = (date) => {
   return itemDate > currentDate;
 }
 
+export const getMaxDate = new Date(
+  new Date().getFullYear(),
+  new Date().getMonth() + 1,
+  new Date().getDate()
+);
+
 export const countFreePlaces = () => {
   return places.reduce((acc, item) => item.userId ? acc : acc + 1, 0)
 }
