@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native'; 
 import { useTheme } from '@react-navigation/native';
 import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
-import { countFreePlaces, countBusyPlaces } from '../data/helpers';
+import { COUNT_PLACES } from '../data/config';
 
 export const ParkingScreen = () => {
   const { colors } = useTheme();
@@ -23,13 +23,13 @@ export const ParkingScreen = () => {
         <PlaceSample text='выбрано' isActive />
       </View>
       <View style={styles.free_places}>
-        <Text style={styles.free}>Свободно: {countFreePlaces()}</Text>
-        <Text style={styles.busy}>Занято: {countBusyPlaces()}</Text>
+        <Text style={styles.free}>Свободно: {COUNT_PLACES - 0}</Text>
+        <Text style={styles.busy}>Занято: {0}</Text>
       </View>
       <View style={styles.inputs}>
         <InputDate />
         <View style={styles.inputs__time}>
-          <InputTime label='Время' />
+          <InputTime label='Время' isStart />
           <Text style={styles.inputs__line}>–</Text>
           <InputTime />
         </View>
@@ -53,7 +53,7 @@ const createStyles = (colors) => StyleSheet.create({
     paddingBottom: 60,
   },
   header: {
-    marginBottom: 22
+    marginBottom: 30
   },
   places: {
     marginBottom: 5

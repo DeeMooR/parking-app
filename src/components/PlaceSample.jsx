@@ -33,7 +33,8 @@ const createStyles = (colors) => StyleSheet.create({
     borderColor: colors.blue
   },
   squareBusy: {
-    borderColor: colors.black
+    borderColor: colors.black,
+    backgroundColor: colors.grey
   },
   squareActive: {
     backgroundColor: colors.blueOpacity

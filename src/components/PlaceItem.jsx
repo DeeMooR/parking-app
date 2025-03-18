@@ -1,23 +1,42 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { useState, useContext, useEffect } from 'react';
+import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { placeTypes } from '../data/config';
+import { AppContext } from '../providers/AppProvider';
 
-export const PlaceItem = ({ place, isEven }) => {
+export const PlaceItem = ({ place, isEven, isBusy }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const { id, type, userId } = place;
+  const { id, type } = place;
+
+  const {selectedPlace, setSelectedPlace} = useContext(AppContext);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (selectedPlace === id) setIsActive(true);
+    else setIsActive(false);
+  }, [selectedPlace])
+
+  const handlePressPlace = () => {
+    if (isBusy) return;
+    setSelectedPlace(selectedPlace !== id ? id : null);
+  }
 
   const placeStyle = [
     styles.place,
-    userId ? styles.placeBusy : null,
+    isBusy ? styles.placeBusy : null,
     isEven ? styles.isEven : null,
+    isActive ? styles.isActive : null,
   ]
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity 
+      style={styles.container} 
+      onPress={handlePressPlace}
+    >
       <View style={placeStyle}>
         {type === placeTypes.parking ? (
-          userId ? (
+          isBusy ? (
             <Image
               source={require('@/assets/parking_icon_fill.png')}
               style={styles.image}
@@ -35,14 +54,15 @@ export const PlaceItem = ({ place, isEven }) => {
           />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
 const createStyles = (colors) => StyleSheet.create({
   container: {
     width: '25%',
-    marginBottom: 10,
+    paddingTop: 5,
+    paddingBottom: 6,
   },
   place: {
     alignItems: 'center',
@@ -56,9 +76,13 @@ const createStyles = (colors) => StyleSheet.create({
   },
   placeBusy: {
     borderColor: colors.black,
+    backgroundColor: colors.grey
   },
   isEven: {
     marginLeft: 'auto'
+  },
+  isActive: {
+    backgroundColor: colors.blueOpacity
   },
   image: {
     width: 21,

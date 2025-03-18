@@ -14,9 +14,7 @@ export const AccountScreen = () => {
     setOpenModal(false);
   }
 
-  const onExit = () => {
-    console.log('onExit')
-  }
+  const onExit = () => {}
 
   return (
     <View style={styles.container}>

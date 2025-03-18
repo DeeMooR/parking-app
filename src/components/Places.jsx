@@ -1,8 +1,19 @@
+import { useEffect, useContext, useState } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import { places } from '../data/config';
-import { PlaceItem } from './PlaceItem';
+import { AppContext } from '../providers/AppProvider';
+import { PlaceItem } from '.';
+import { places } from '../data/data';
+import { getBusyPlaces } from '../data/helpers';
 
 export const Places = () => {
+  const {date, timeStart, timeEnd} = useContext(AppContext);
+  const [busyPlaces, setBusyPlaces] = useState(new Set());
+
+  useEffect(() => {
+    const busySet = getBusyPlaces(date, timeStart, timeEnd);
+    setBusyPlaces(busySet);
+  }, [date, timeStart, timeEnd]);
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -11,6 +22,7 @@ export const Places = () => {
           <PlaceItem 
             place={item}
             isEven={item.id % 2 === 0}
+            isBusy={busyPlaces.has(item.id)}
           />
         )}
         style={styles.list}

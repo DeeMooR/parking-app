@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { history } from '../data/config';
+import { history } from '../data/data';
 import { compareDates } from '../data/helpers';
 import { HistoryItem } from '.';
 
