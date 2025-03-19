@@ -1,14 +1,12 @@
-import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-export const RadioButton = ({ label }) => {
+export const RadioButton = ({ label, isSelected, onChange }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const [isSelected, setSelected] = useState(false);
 
   const toggleSelected = () => {
-    setSelected(!isSelected);
+    onChange(!isSelected);
   };
 
   return (

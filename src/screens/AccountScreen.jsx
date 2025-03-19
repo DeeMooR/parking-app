@@ -22,9 +22,20 @@ export const AccountScreen = () => {
         <Header text='Личный кабинет' />
       </View>
       <View style={styles.fields}>
-        <Input label='Имя' value='Дмитрий' isSmall />
-        <Input label='Почта' value='dmitry@gmail.com' isSmall />
-        <InputPassword value='password' isSmall />
+        <Input 
+          label='Имя' 
+          value='Дмитрий' 
+          isSmall 
+        />
+        <Input 
+          label='Почта' 
+          value='dmitry@gmail.com' 
+          isSmall 
+        />
+        <InputPassword 
+          value='password' 
+          isSmall 
+        />
       </View>
       <View style={styles.buttons}>
         <Button 

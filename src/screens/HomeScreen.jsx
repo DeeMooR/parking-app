@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'; 
 import { useTheme } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 import { Header, Button, ModalQR } from '../components';
+import { AppContext } from '../providers/AppProvider';
 
 export const HomeScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
+  const { user } = useContext(AppContext);
   const [isOpenModal, setOpenModal] = useState(false);
   const [imageHeight, setImageHeight] = useState(0);
 
@@ -23,7 +25,7 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Header text='Привет, Дмитрий! 👋' />
+        <Header text={`Привет, ${user.name}! 👋`} />
       </View>
       <Image
         source={require('@/assets/parkingMain.jpg')}

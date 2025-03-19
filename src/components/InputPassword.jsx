@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { useTheme } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-export const InputPassword = ({ value, isSmall }) => {
+export const InputPassword = ({ value, onChangeText, isSmall }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const [isHidden, setHidden] = useState(true);
@@ -11,6 +11,10 @@ export const InputPassword = ({ value, isSmall }) => {
   const inputStyle = [
     styles.input,
     isSmall ? styles.inputSmall : null,
+  ];
+  const iconStyle = [
+    styles.eyeIcon,
+    isSmall ? styles.iconSmall : null,
   ];
 
   const toggleVisibility = () => {
@@ -24,17 +28,18 @@ export const InputPassword = ({ value, isSmall }) => {
         style={inputStyle} 
         placeholder='Ваш пароль'
         value={value}
+        onChangeText={onChangeText}
         secureTextEntry={isHidden}
         autoCapitalize="none"
         autoCorrect={false}
       />
       <TouchableOpacity
-        style={styles.eyeIcon}
+        style={iconStyle}
         onPress={toggleVisibility}
       >
         <Ionicons
           name={isHidden ? 'eye-off' : 'eye'}
-          size={24}
+          size={isSmall ? 22 : 24}
           color="gray"
         />
       </TouchableOpacity>
@@ -67,5 +72,9 @@ const createStyles = (colors) => StyleSheet.create({
     position: 'absolute',
     bottom: 16,
     right: 16,
+  },
+  iconSmall: {
+    bottom: 13,
+    right: 14,
   }
 });

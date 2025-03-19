@@ -1,27 +1,71 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { View, Text, Alert, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Input, InputPassword, Button, Link, RadioButton } from '../components';
+import { createUser } from '../data/requests';
 
 export const RegisterScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
+
+  const showError = (error) => {
+    Alert.alert(
+      "Ошибка регистрации", 
+      error, 
+      [{ text: "OK", style: 'cancel' }],
+    );
+  }
+
+  const onRegister = () => {
+    if (!name || !email || !password) {
+      showError('Необходимо заполнить все поля');
+      return;
+    }
+    if(!acceptTerms) {
+      showError('Необходимо принять условия и политику конфиденциальности');
+      return;
+    }
+    const newUser = { id: null, name, email, password, history: [] }
+    createUser(newUser, showError, navigation);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Новый аккаунт</Text>
       <View style={styles.fields}>
-        <Input label='Имя' placeholder='Ваше имя' />
-        <Input label='Почта' placeholder='Ваша почта' />
-        <InputPassword />
+        <Input 
+          label='Имя' 
+          placeholder='Ваше имя'
+          value={name}
+          onChangeText={setName} 
+        />
+        <Input 
+          label='Почта' 
+          placeholder='Ваша почта' 
+          value={email}
+          onChangeText={setEmail} 
+        />
+        <InputPassword
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
       <View style={styles.conditions}>
-        <RadioButton label='Я принимаю условия и политику конфиденциальности' />
+        <RadioButton 
+          label='Я принимаю условия и политику конфиденциальности' 
+          isSelected={acceptTerms}
+          onChange={setAcceptTerms}
+        />
       </View>
       <View style={styles.button}>
         <Button 
           text='Зарегистрироваться' 
-          navigate='Login' 
-          navigation={navigation} 
+          onPress={onRegister}
         />
       </View>
       <View style={styles.login}>

@@ -1,24 +1,59 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { useContext, useState } from 'react';
+import { View, Text, Alert, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Input, InputPassword, Button, Link } from '../components';
+import { checkUser } from '../data/requests';
+import { AppContext } from '../providers/AppProvider';
 
 export const LoginScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
+  const { setUser } = useContext(AppContext);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const showError = (error) => {
+    Alert.alert(
+      "Ошибка авторизации", 
+      error, 
+      [{ text: "OK", style: 'cancel' }],
+    );
+  }
+
+  const onLogin = async () => {
+    if (!email || !password) {
+      showError('Необходимо заполнить все поля');
+      return;
+    }
+    const data = { email, password }
+    const user = await checkUser(data, showError);
+    if (user) {
+      setUser(user);
+      navigation.navigate('MainTabs');
+    }
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Вход</Text>
       <View style={styles.fields}>
-        <Input label='Почта' placeholder='Ваша почта' />
-        <InputPassword />
+        <Input 
+          label='Почта' 
+          placeholder='Ваша почта' 
+          value={email}
+          onChangeText={setEmail}
+        />
+        <InputPassword
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
       <Text style={styles.forgotPassword}>Забыли пароль?</Text>
       <View style={styles.button}>
         <Button 
           text='Войти' 
-          navigate='MainTabs' 
-          navigation={navigation} 
+          onPress={onLogin}
         />
       </View>
       <View style={styles.login}>

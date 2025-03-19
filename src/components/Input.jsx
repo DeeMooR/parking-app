@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-export const Input = ({ label, placeholder, value, onPress, isSmall }) => {
+export const Input = ({ label, placeholder, value, onChangeText, isSmall }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
@@ -17,8 +17,9 @@ export const Input = ({ label, placeholder, value, onPress, isSmall }) => {
         style={inputStyle} 
         placeholder={placeholder} 
         value={value}
-        onPress={onPress}
-        readOnly={!!onPress}
+        onChangeText={onChangeText}
+        keyboardType={label === 'Почта' ? 'email-address' : 'default'}
+        autoCapitalize={label === 'Почта' ? 'none' : 'sentences'}
       />
     </View>
   )
