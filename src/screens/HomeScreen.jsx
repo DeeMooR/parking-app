@@ -26,7 +26,7 @@ export const HomeScreen = ({ navigation }) => {
         <Header text='Привет, Дмитрий! 👋' />
       </View>
       <Image
-        source={require('@/assets/parking.jpg')}
+        source={require('@/assets/parkingMain.jpg')}
         style={[styles.image, { height: imageHeight }]}
       />
       <View style={styles.buttons}>

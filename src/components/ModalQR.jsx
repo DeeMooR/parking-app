@@ -15,7 +15,7 @@ export const ModalQR = ({ isOpen, close }) => {
       <View style={styles.modal}>
         <View style={styles.modal__view}>
           <Image
-            source={require('@/assets/qr_code.png')}
+            source={require('@/assets/qrCode.png')}
             style={styles.image}
           />
           <Text style={styles.title}>Покажите QR-код на въезде</Text>

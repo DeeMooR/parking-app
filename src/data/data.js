@@ -4,56 +4,50 @@ export const history = [
     date: '11.04.2025',
     timeStart: '9:00',
     timeEnd: '12:00',
-    place: '11',
-    type: 'parking'
+    place: 11,
   },
   {
     id: 2,
     date: '09.04.2025',
-    timeStart: '15:00',
+    timeStart: '15:30',
     timeEnd: '18:00',
-    place: '25',
-    type: 'electric'
+    place: 25,
   },
   {
     id: 3,
     date: '25.02.2025',
     timeStart: '9:00',
     timeEnd: '12:00',
-    place: '2',
-    type: 'parking'
+    place: 2,
   },
   {
     id: 4,
     date: '21.02.2025',
-    timeStart: '10:00',
-    timeEnd: '12:00',
-    place: '17',
-    type: 'electric'
+    timeStart: '10:30',
+    timeEnd: '12:30',
+    place: 17,
   },
   {
     id: 5,
     date: '19.02.2025',
     timeStart: '15:00',
     timeEnd: '17:00',
-    place: '28',
-    type: 'electric'
+    place: 28,
   },
   {
     id: 6,
     date: '15.02.2025',
-    timeStart: '9:00',
+    timeStart: '9:30',
     timeEnd: '18:00',
-    place: '20',
-    type: 'parking'
+    place: 20,
   }
 ]
 
 export const places = [
-  { id: 1, type: 'parking' },
+  { id: 1, type: 'invalid' },
   { id: 2, type: 'parking' },
   { id: 3, type: 'parking' },
-  { id: 4, type: 'parking' },
+  { id: 4, type: 'invalid' },
   { id: 5, type: 'parking' },
   { id: 6, type: 'parking' },
   { id: 7, type: 'parking' },
@@ -82,9 +76,9 @@ export const places = [
 
 // date -> time -> places
 export const dates = {
-  "18.03.2025": {
-    "08:30": [1, 2, 3],
-    "09:00": [1, 2],
-    "09:30": [1, 2],
+  "19.03.2025": {
+    "00:00": [24, 10, 20, 3, 13],
+    "00:30": [24, 10, 20, 3, 13],
+    "01:00": [24, 10, 20, 3, 13]
   }
 }

@@ -79,7 +79,6 @@ export const getBusyPlaces = (date, timeStart, timeEnd) => {
   if (checkIsMidnight(timeEnd)) {
     times = generateTimeIntervals(newTimeStart, '24:00');
   }
-  console.log(times)
   
   let busyPlaces = new Set();
   const obj = dates[newDate];

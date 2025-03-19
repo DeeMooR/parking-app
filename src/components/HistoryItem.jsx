@@ -1,11 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { placeRU } from '../data/config';
+import { places } from '../data/data';
 
 export const HistoryItem = ({ item, index }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const { date, timeStart, timeEnd, place, type } = item;
+  const { date, timeStart, timeEnd, place } = item;
+  const type = places.reduce((acc, item) => {
+    return (place === item.id) ? item.type : acc;
+  }, '');
 
   return (
     <View style={styles.container}>

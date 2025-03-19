@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { View, Text, StyleSheet } from 'react-native'; 
+import { View, Text, Alert, StyleSheet } from 'react-native'; 
 import { useTheme } from '@react-navigation/native';
 import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
 import { COUNT_PLACES } from '../data/config';
@@ -10,7 +10,18 @@ export const ParkingScreen = () => {
   const styles = createStyles(colors);
   const { timeError, busyPlaces, selectedPlace } = useContext(AppContext);
 
-  const onBook = () => {}
+  const onBook = () => {
+    if (timeError || !selectedPlace) {
+      const message = timeError ? 'Неверно выбран промежуток времени' : 'Необходимо выбрать место';
+      Alert.alert(
+        "Ошибка бронирования", 
+        message, 
+        [{ text: "OK", style: 'cancel'}],
+      );
+      return;
+    }
+    
+  }
 
   return (
     <View style={styles.container}>
@@ -70,14 +81,14 @@ const createStyles = (colors) => StyleSheet.create({
     flexDirection: 'row',
     gap: 19,
     marginLeft: 2,
-    marginBottom: 30
+    marginBottom: 27
   },
   free_places: {
     marginBottom: 26
   },
   free: {
     fontWeight: 500,
-    fontSize: 18,
+    fontSize: 19,
     color: colors.black,
     marginBottom: 4
   },
@@ -101,7 +112,7 @@ const createStyles = (colors) => StyleSheet.create({
   },
   time__error: {
     height: 18,
-    marginBottom: 15
+    marginBottom: 12
   },
   error__text: {
     fontSize: 14,

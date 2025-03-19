@@ -33,23 +33,31 @@ export const PlaceItem = ({ place, isEven, isBusy }) => {
     <TouchableOpacity 
       style={styles.container} 
       onPress={handlePressPlace}
+      disabled={isBusy} 
     >
       <View style={placeStyle}>
-        {type === placeTypes.parking ? (
+        {type === placeTypes.parking && (
           isBusy ? (
             <Image
-              source={require('@/assets/parking_icon_fill.png')}
+              source={require('@/assets/parkingFill.png')}
               style={styles.image}
             />
           ) : (
             <Image
-              source={require('@/assets/parking_icon.png')}
+              source={require('@/assets/parking.png')}
               style={styles.image}
             />
           )
-        ) : (
+        )}
+        {type === placeTypes.electric && (
           <Image
             source={require('@/assets/electric.png')}
+            style={styles.image}
+          />
+        )}
+        {type === placeTypes.invalid && (
+          <Image
+            source={require('@/assets/invalid.png')}
             style={styles.image}
           />
         )}
