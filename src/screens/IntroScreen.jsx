@@ -1,10 +1,19 @@
+import { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Button } from '../components';
+import { AppContext } from '../providers/AppProvider';
+import { emptyUser } from '../data/data';
 
 export const IntroScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
+  const { setUser, setHistory } = useContext(AppContext);
+
+  useEffect(() => {
+    setUser(emptyUser);
+    setHistory([]);
+  }, [])
 
   return (
     <View style={styles.container}>

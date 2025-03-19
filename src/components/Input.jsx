@@ -20,6 +20,8 @@ export const Input = ({ label, placeholder, value, onChangeText, isSmall }) => {
         onChangeText={onChangeText}
         keyboardType={label === 'Почта' ? 'email-address' : 'default'}
         autoCapitalize={label === 'Почта' ? 'none' : 'sentences'}
+        autoCompleteType="off"
+        textContentType="oneTimeCode"
       />
     </View>
   )

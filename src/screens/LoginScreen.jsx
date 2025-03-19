@@ -8,7 +8,7 @@ import { AppContext } from '../providers/AppProvider';
 export const LoginScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const { setUser } = useContext(AppContext);
+  const { setUser, setHistory } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +29,9 @@ export const LoginScreen = ({ navigation }) => {
     const data = { email, password }
     const user = await checkUser(data, showError);
     if (user) {
-      setUser(user);
+      const { history, ...userData } = user;
+      setUser(userData);
+      setHistory(history);
       navigation.navigate('MainTabs');
     }
   }

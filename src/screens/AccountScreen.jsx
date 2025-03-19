@@ -1,20 +1,46 @@
-import { useState } from 'react';
-import { View, StyleSheet } from 'react-native'; 
+import { useContext, useState } from 'react';
+import { View, Alert, StyleSheet } from 'react-native'; 
 import { useTheme } from '@react-navigation/native';
 import { Header, Button, Input, InputPassword, History, ModalDelete } from '../components';
+import { AppContext } from '../providers/AppProvider';
+import { updateUser, deleteUser } from '../data/requests';
 
-export const AccountScreen = () => {
+export const AccountScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const [isOpenModal, setOpenModal] = useState(false);
-  
-  const onUpdate = () => {}
+  const { user, history, setUser } = useContext(AppContext);
+
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [password, setPassword] = useState(user.password);
+
+  const showError = (error) => {
+    Alert.alert(
+      "Ошибка", 
+      error, 
+      [{ text: "OK", style: 'cancel' }],
+    );
+  }
+
+  const onUpdate = () => {
+    if (!name || !email || !password) {
+      showError('Необходимо заполнить все поля');
+      return;
+    }
+    const data = { id: user.id, name, email, password, history }
+    updateUser(data, showError, setUser);
+  }
   
   const onDelete = () => {
     setOpenModal(false);
+    deleteUser(user.id, showError);
+    navigation.navigate('Intro');
   }
 
-  const onExit = () => {}
+  const onExit = () => {
+    navigation.navigate('Intro');
+  }
 
   return (
     <View style={styles.container}>
@@ -24,16 +50,19 @@ export const AccountScreen = () => {
       <View style={styles.fields}>
         <Input 
           label='Имя' 
-          value='Дмитрий' 
+          value={name} 
+          onChangeText={setName}
           isSmall 
         />
         <Input 
           label='Почта' 
-          value='dmitry@gmail.com' 
+          value={email} 
+          onChangeText={setEmail}
           isSmall 
         />
         <InputPassword 
-          value='password' 
+          value={password} 
+          onChangeText={setPassword}
           isSmall 
         />
       </View>

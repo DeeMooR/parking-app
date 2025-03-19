@@ -100,3 +100,14 @@ export const compareTimes = (timeStart, timeEnd) => {
   if (startHours === endHours && startMinutes >= endMinutes) return false;
   return true;
 }
+
+// от isActive зависит по возрастанию или убыванию
+export const sortHistory = (history, isActive) => {
+  return history.sort((a, b) => {
+    const dateA = new Date(a.date.split('.').reverse().join('-'));
+    const dateB = new Date(b.date.split('.').reverse().join('-'));
+
+    if (dateB - dateA !== 0) return isActive ? dateA - dateB : dateB - dateA;
+    return a.timeStart.localeCompare(b.timeStart);
+  });
+}

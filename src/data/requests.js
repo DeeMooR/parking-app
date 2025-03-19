@@ -45,3 +45,41 @@ export const checkUser = async (data, showError) => {
     showError('Что-то пошло не так');
   }
 };
+
+export const updateUser = async (data, showError, setUser) => {
+  try {
+    const users = await getUsers();
+    const user = users.find(item => item.id === data.id);
+    if (!user) {
+      showError('Пользователь не найден');
+      return;
+    }
+
+    const updatedUsers = users.map(item => {
+      return (item.id === data.id) ? data : item;
+    })
+    await axios.put('https://jsonblob.com/api/jsonBlob/1351839405354180608', updatedUsers);
+
+    const { history, ...userData } = data;
+    setUser(userData);
+  } catch (error) {
+    console.error('Error: ', error);
+    showError('Что-то пошло не так');
+  }
+};
+
+export const deleteUser = async (userId) => {
+  try {
+    const users = await getUsers();
+    const user = users.find(item => item.id === userId);
+    if (!user) {
+      showError('Пользователь не найден');
+      return;
+    }
+    const allUsers = users.filter(item => item.id !== userId)
+    await axios.put('https://jsonblob.com/api/jsonBlob/1351839405354180608', allUsers);
+  } catch (error) {
+    console.error('Error: ', error);
+    showError('Что-то пошло не так');
+  }
+};

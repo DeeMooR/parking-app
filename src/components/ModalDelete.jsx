@@ -51,7 +51,7 @@ const createStyles = (colors) => StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 20,
     borderWidth: 3,
-    borderColor: colors.delete,
+    borderColor: colors.red,
     shadowColor: colors.black,
     shadowOffset: {
       width: 0,

@@ -31,6 +31,8 @@ export const InputPassword = ({ value, onChangeText, isSmall }) => {
         onChangeText={onChangeText}
         secureTextEntry={isHidden}
         autoCapitalize="none"
+        autoCompleteType="off"
+        textContentType="oneTimeCode"
         autoCorrect={false}
       />
       <TouchableOpacity
