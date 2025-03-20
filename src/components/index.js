@@ -8,6 +8,7 @@ export * from './RadioButton';
 export * from './Header';
 export * from './ModalQR';
 export * from './ModalDelete';
+export * from './ModalSuccess';
 export * from './History';
 export * from './HistoryItem';
 export * from './Places';

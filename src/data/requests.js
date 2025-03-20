@@ -11,7 +11,7 @@ export const getUsers = async () => {
   }
 };
 
-export const createUser = async (newUser, showError, navigation) => {
+export const createUser = async (newUser, showError) => {
   try {
     const users = await getUsers();
     const userExists = users.some(item => item.email === newUser.email);
@@ -20,12 +20,12 @@ export const createUser = async (newUser, showError, navigation) => {
       return;
     }
 
-    const newId = users[users.length - 1].id + 1;
+    const newId = !!users.length ? users[users.length - 1].id + 1 : 1;
     newUser.id = newId;
     const allUsers = [...users, newUser];
     
     await axios.put('https://jsonblob.com/api/jsonBlob/1351839405354180608', allUsers);
-    navigation.navigate('Login');
+    return true;
   } catch (error) {
     console.error('Error: ', error);
     showError('Что-то пошло не так');
@@ -47,7 +47,7 @@ export const checkUser = async (data, showError) => {
   }
 };
 
-export const updateUser = async (data, showError, setUser) => {
+export const updateUser = async (data, showError) => {
   try {
     const users = await getUsers();
     const user = users.find(item => item.id === data.id);
@@ -62,7 +62,7 @@ export const updateUser = async (data, showError, setUser) => {
     await axios.put('https://jsonblob.com/api/jsonBlob/1351839405354180608', updatedUsers);
 
     const { history, ...userData } = data;
-    setUser(userData);
+    return userData;
   } catch (error) {
     console.error('Error: ', error);
     showError('Что-то пошло не так');
@@ -79,6 +79,7 @@ export const deleteUser = async (userId) => {
     }
     const allUsers = users.filter(item => item.id !== userId)
     await axios.put('https://jsonblob.com/api/jsonBlob/1351839405354180608', allUsers);
+    return true;
   } catch (error) {
     console.error('Error: ', error);
     showError('Что-то пошло не так');
@@ -93,7 +94,7 @@ export const updateHistory = async (userId, date, timeStart, timeEnd, place, sho
     const newDate = getOnlyDate(date);
     const newTimeStart = getOnlyTime(timeStart);
     const newTimeEnd = getOnlyTime(timeEnd);
-    const historyId = user.history[user.history.length - 1].id + 1;
+    const historyId = user.history.length ? user.history[user.history.length - 1].id + 1 : 1;
 
     const newHistoryItem = {
       id: historyId,
@@ -126,7 +127,7 @@ export const getDates = async () => {
   }
 };
 
-export const updateDates = async (date, timeStart, timeEnd, place, showError, fetchDates, setSelectedPlace) => {
+export const updateDates = async (date, timeStart, timeEnd, place, showError, fetchDates) => {
   try {
     const dates = await getDates();
     const newDate = getOnlyDate(date);
@@ -158,7 +159,6 @@ export const updateDates = async (date, timeStart, timeEnd, place, showError, fe
 
     await axios.put('https://jsonblob.com/api/jsonBlob/1352186647189577728', newDates);
     await fetchDates();
-    setSelectedPlace(null);
     return true;
   } catch (error) {
     console.error('Error: ', error);

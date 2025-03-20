@@ -1,5 +1,5 @@
-import { useContext, useCallback } from 'react'
-import { View, Text, Alert, StyleSheet } from 'react-native'; 
+import { useContext, useCallback, useState } from 'react'
+import { View, Text, Alert, ActivityIndicator, StyleSheet } from 'react-native'; 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
 import { COUNT_PLACES } from '../data/config';
@@ -9,17 +9,23 @@ import { getDates, updateDates, updateHistory } from '../data/requests';
 export const ParkingScreen = () => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const { user, timeError, busyPlaces, selectedPlace, setSelectedPlace, date, setDates, timeStart, timeEnd, setHistory } = useContext(AppContext);
+  const { user, timeError, busyPlaces, selectedPlace, setSelectedPlace, date, setDates, timeStart, timeEnd, setHistory, setModalText } = useContext(AppContext);
+  const [isLoading, setLoading] = useState(false);
 
   const fetchDates = async () => {
     const dates = await getDates();
     if (dates) setDates(dates);
+    setSelectedPlace(null);
   }
 
   useFocusEffect(
     useCallback(() => {
-      fetchDates();
-      setSelectedPlace(null);
+      const func = async () => {
+        setLoading(true);
+        await fetchDates();
+        setLoading(false);
+      }
+      func();
     }, [])
   );
 
@@ -37,8 +43,9 @@ export const ParkingScreen = () => {
       showError(message);
       return;
     }
-    const isSuccess = updateDates(date, timeStart, timeEnd, selectedPlace, showError, fetchDates, setSelectedPlace);
+    const isSuccess = await updateDates(date, timeStart, timeEnd, selectedPlace, showError, fetchDates);
     if (isSuccess) {
+      setModalText(`Место ${selectedPlace} забронировано`);
       const newHistory = await updateHistory(user.id, date, timeStart, timeEnd, selectedPlace, showError);
       if (newHistory) setHistory(newHistory);
     }
@@ -49,14 +56,24 @@ export const ParkingScreen = () => {
       <View style={styles.header}>
         <Header text='Паркинг' />
       </View>
-      <View style={styles.places}>
-        <Places />
-      </View>
-      <View style={styles.samples}>
-        <PlaceSample text='занято' isBusy />
-        <PlaceSample text='свободно' />
-        <PlaceSample text='выбрано' isActive />
-      </View>
+      {isLoading ? (
+        <ActivityIndicator 
+          size="large" 
+          color={colors.blue} 
+          style={styles.loader}
+        />
+      ) : (
+        <>
+          <View style={styles.places}>
+            <Places />
+          </View>
+          <View style={styles.samples}>
+            <PlaceSample text='занято' isBusy />
+            <PlaceSample text='свободно' />
+            <PlaceSample text='выбрано' isActive />
+          </View>
+        </>
+      )}
       <View style={styles.free_places}>
         <Text style={styles.free}>Свободно: {COUNT_PLACES - busyPlaces.size}</Text>
         <Text style={styles.busy}>Занято: {busyPlaces.size}</Text>
@@ -94,6 +111,10 @@ const createStyles = (colors) => StyleSheet.create({
   },
   header: {
     marginBottom: 30
+  },
+  loader: {
+    height: 338,
+    marginBottom: 27
   },
   places: {
     marginBottom: 5

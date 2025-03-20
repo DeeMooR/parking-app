@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { View, Text, Alert, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Input, InputPassword, Button, Link, RadioButton } from '../components';
 import { createUser } from '../data/requests';
+import { AppContext } from '../providers/AppProvider';
 
 export const RegisterScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
+  const { setModalText } = useContext(AppContext);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,7 +23,7 @@ export const RegisterScreen = ({ navigation }) => {
     );
   }
 
-  const onRegister = () => {
+  const onRegister = async () => {
     if (!name || !email || !password) {
       showError('Необходимо заполнить все поля');
       return;
@@ -30,8 +32,12 @@ export const RegisterScreen = ({ navigation }) => {
       showError('Необходимо принять условия и политику конфиденциальности');
       return;
     }
-    const newUser = { id: null, name, email, password, history: [] }
-    createUser(newUser, showError, navigation);
+    const newUser = { name, email, password, history: [] }
+    const isCreated = await createUser(newUser, showError, navigation);
+    if (isCreated) {
+      setModalText(`Пользователь ${name} успешно создан`)
+      navigation.navigate('Login');
+    }
   }
 
   return (

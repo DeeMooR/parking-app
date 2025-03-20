@@ -9,7 +9,7 @@ export const AccountScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const [isOpenModal, setOpenModal] = useState(false);
-  const { user, history, setUser } = useContext(AppContext);
+  const { user, history, setUser, setModalText } = useContext(AppContext);
 
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
@@ -23,19 +23,26 @@ export const AccountScreen = ({ navigation }) => {
     );
   }
 
-  const onUpdate = () => {
+  const onUpdate = async () => {
     if (!name || !email || !password) {
       showError('Необходимо заполнить все поля');
       return;
     }
     const data = { id: user.id, name, email, password, history }
-    updateUser(data, showError, setUser);
+    const newUser = await updateUser(data, showError, setUser);
+    if (newUser) {
+      setUser(newUser);
+      setModalText('Данные пользователя успешно измены');
+    }
   }
   
-  const onDelete = () => {
+  const onDelete = async () => {
     setOpenModal(false);
-    deleteUser(user.id, showError);
-    navigation.navigate('Intro');
+    const isDeleted = await deleteUser(user.id, showError);
+    if (isDeleted) {
+      setModalText('Пользователь успешно удален');
+      navigation.navigate('Intro');
+    }
   }
 
   const onExit = () => {

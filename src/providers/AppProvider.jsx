@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
 
   const [busyPlaces, setBusyPlaces] = useState(new Set());
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [modalText, setModalText] = useState(null);
 
   const [user, setUser] = useState(emptyUser);
   const [history, setHistory] = useState([]);
@@ -31,6 +32,8 @@ export const AppProvider = ({ children }) => {
       setBusyPlaces,
       selectedPlace,
       setSelectedPlace,
+      modalText,
+      setModalText,
       user,
       setUser,
       history,

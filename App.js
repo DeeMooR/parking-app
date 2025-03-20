@@ -2,6 +2,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { StatusBar } from 'expo-status-bar';
 import { AppProvider } from './src/providers/AppProvider';
+import { ModalSuccess } from './src/components';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -16,7 +17,8 @@ const MyTheme = {
     blueGrey: '#678e9692',
     brown: '#4D3E3E',
     brownOpacity: '#4d3e3eb3',
-    red: '#DF5A5A'
+    red: '#DF5A5A',
+    green: '#4DB84D'
   },
 };
 
@@ -26,6 +28,7 @@ const App = () => {
     <AppProvider>
       <NavigationContainer theme={MyTheme}>
         <AppNavigator />
+        <ModalSuccess />
         <StatusBar style="auto" />
       </NavigationContainer>
     </AppProvider>
