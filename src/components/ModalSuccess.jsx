@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useTheme } from "@react-navigation/native";
 import { Text, Animated, StyleSheet } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { AppContext } from "../providers/AppProvider";
+import { useOrientation } from "../utils";
 
 export const ModalSuccess = () => {
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
+  const { colors, isMobile } = useOrientation();
+  const styles = createStyles(colors, isMobile);
   const { modalText, setModalText } = useContext(AppContext); 
   const [translateY] = useState(new Animated.Value(-100));
 
@@ -20,7 +20,7 @@ export const ModalSuccess = () => {
 
   useEffect(() => {
     if (modalText) {
-      animateModal(55);
+      animateModal(isMobile ? 22 : 55);
       const timer = setTimeout(() => {
         setModalText(null);
         animateModal(-100);
@@ -37,7 +37,7 @@ export const ModalSuccess = () => {
   );
 };
 
-const createStyles = (colors) => StyleSheet.create({
+const createStyles = (colors, isMobile) => StyleSheet.create({
   modal: {
     position: "absolute",
     backgroundColor: colors.white,
@@ -47,8 +47,7 @@ const createStyles = (colors) => StyleSheet.create({
     gap: 9,
     paddingVertical: 15,
     paddingHorizontal: 20,
-    width: "80%",
-    maxWidth: 320,
+    maxWidth: isMobile ? 500 : 320,
     borderRadius: 15,
     borderColor: colors.grey,
     borderWidth: 1,

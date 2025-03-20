@@ -2,9 +2,8 @@ import { useContext, useCallback, useState } from 'react'
 import { View, Text, Alert, ActivityIndicator, StyleSheet } from 'react-native'; 
 import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
-import { COUNT_PLACES } from '../data/config';
 import { AppContext } from '../providers/AppProvider';
-import { getDates, updateDates, updateHistory } from '../data/requests';
+import { COUNT_PLACES, getDates, updateDates, updateHistory } from '../utils';
 
 export const ParkingScreen = () => {
   const { colors } = useTheme();

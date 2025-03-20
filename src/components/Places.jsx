@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { AppContext } from '../providers/AppProvider';
 import { PlaceItem } from '.';
-import { places } from '../data/config';
+import { places } from '../utils';
 
 export const Places = () => {
   const { busyPlaces } = useContext(AppContext);

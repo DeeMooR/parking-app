@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react';
-import { setHours } from '../data/helpers';
-import { emptyUser } from '../data/config';
+import { setHours, emptyUser } from '../utils';
 
 export const AppContext = createContext();
 

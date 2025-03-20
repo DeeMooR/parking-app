@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { placeTypes } from '../data/config';
+import { placeTypes } from '../utils';
 import { AppContext } from '../providers/AppProvider';
 
 export const PlaceItem = ({ place, isEven, isBusy }) => {

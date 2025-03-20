@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { HistoryItem } from '.';
-import { compareDates, sortHistory } from '../data/helpers';
+import { compareDates, sortHistory } from '../utils';
 import { AppContext } from '../providers/AppProvider';
 
 export const History = () => {

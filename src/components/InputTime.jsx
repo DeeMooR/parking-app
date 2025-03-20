@@ -3,7 +3,7 @@ import { SafeAreaView, Text, StyleSheet } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from '@react-navigation/native';
 import { AppContext } from '../providers/AppProvider';
-import { compareTimes, getBusyPlaces } from '../data/helpers';
+import { compareTimes, getBusyPlaces } from '../utils';
 
 export const InputTime = ({ label, isStart }) => {
   const { colors } = useTheme();

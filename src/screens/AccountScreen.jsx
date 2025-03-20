@@ -3,7 +3,7 @@ import { View, Alert, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Header, Button, Input, InputPassword, History, ModalDelete } from '../components';
 import { AppContext } from '../providers/AppProvider';
-import { updateUser, deleteUser } from '../data/requests';
+import { updateUser, deleteUser } from '../utils';
 
 export const AccountScreen = ({ navigation }) => {
   const { colors } = useTheme();

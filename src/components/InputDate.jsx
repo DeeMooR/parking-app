@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { SafeAreaView, Text, StyleSheet } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from '@react-navigation/native';
-import { maxDate } from '../data/config';
+import { maxDate } from '../utils';
 import { AppContext } from '../providers/AppProvider';
 
 export const InputDate = () => {

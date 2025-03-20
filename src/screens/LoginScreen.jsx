@@ -1,13 +1,12 @@
 import { useContext, useState } from 'react';
 import { View, Text, Alert, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import { Input, InputPassword, Button, Link } from '../components';
-import { checkUser } from '../data/requests';
 import { AppContext } from '../providers/AppProvider';
+import { checkUser, useOrientation } from '../utils';
 
 export const LoginScreen = ({ navigation }) => {
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
+  const { colors, isMobile } = useOrientation();
+  const styles = createStyles(colors, isMobile);
   const { setUser, setHistory } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
@@ -70,40 +69,41 @@ export const LoginScreen = ({ navigation }) => {
   );
 }
 
-const createStyles = (colors) => StyleSheet.create({
+const createStyles = (colors, isMobile) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 19
+    paddingHorizontal: isMobile ? 70 : 19
   },
   title: {
     width: '100%',
     fontWeight: 700,
     fontSize: 34,
     color: colors.brown,
-    marginBottom: 26
+    marginBottom: isMobile ? 12 : 26
   },
   fields: {
-    gap: 20,
+    gap: isMobile ? 12 : 20,
     width: '100%',
-    marginBottom: 10
+    marginBottom: isMobile ? 7 : 10
   },
   forgotPassword: {
     width: '100%',
     textAlign: 'right',
-    marginBottom: 28
+    marginBottom: isMobile ? 14 : 28
   },
   button: {
-    width: '100%'
+    width: '100%',
+    marginBottom: isMobile && 12
   },
   login: {
-    position: 'absolute',
+    position: !isMobile && 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    bottom: 80
+    bottom: !isMobile && 80
   },
   login__text: {}
 });

@@ -1,13 +1,12 @@
 import { useContext, useState } from 'react';
 import { View, Text, Alert, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import { Input, InputPassword, Button, Link, RadioButton } from '../components';
-import { createUser } from '../data/requests';
 import { AppContext } from '../providers/AppProvider';
+import { createUser, useOrientation } from '../utils';
 
 export const RegisterScreen = ({ navigation }) => {
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
+  const { colors, isMobile } = useOrientation();
+  const styles = createStyles(colors, isMobile);
   const { setModalText } = useContext(AppContext);
 
   const [name, setName] = useState('');
@@ -49,12 +48,14 @@ export const RegisterScreen = ({ navigation }) => {
           placeholder='Ваше имя'
           value={name}
           onChangeText={setName} 
+          componentStyle={styles.name}
         />
         <Input 
           label='Почта' 
           placeholder='Ваша почта' 
           value={email}
           onChangeText={setEmail} 
+          componentStyle={styles.email}
         />
         <InputPassword
           value={password}
@@ -86,39 +87,49 @@ export const RegisterScreen = ({ navigation }) => {
   );
 }
 
-const createStyles = (colors) => StyleSheet.create({
+const createStyles = (colors, isMobile) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 19
+    paddingHorizontal: isMobile ? 70 : 19
   },
   title: {
     width: '100%',
     fontWeight: 700,
     fontSize: 34,
     color: colors.brown,
-    marginBottom: 26
+    marginBottom: isMobile ? 12 : 26
   },
   fields: {
-    gap: 20,
+    flexWrap: isMobile && 'wrap',
+    flexDirection: isMobile && 'row',
+    justifyContent: 'space-between',
+    gap: isMobile ? 12 : 20,
     width: '100%',
-    marginBottom: 36
+    marginBottom: isMobile ? 12 : 36
+  },
+  name: {
+    width: isMobile && '49%'
+  },
+  email: {
+    width: isMobile && '49%'
   },
   conditions: {
     width: '100%',
     marginBottom: 14
   },
   button: {
-    width: '100%'
+    width: '100%',
+    marginBottom: isMobile && 10
   },
   login: {
-    position: 'absolute',
+    position: !isMobile && 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    bottom: 80
+    bottom: !isMobile && 80
   },
   login__text: {}
 });
