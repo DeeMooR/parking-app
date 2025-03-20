@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 import { setHours } from '../data/helpers';
-import { emptyUser } from '../data/data';
+import { emptyUser } from '../data/config';
 
 export const AppContext = createContext();
 
@@ -12,8 +12,10 @@ export const AppProvider = ({ children }) => {
 
   const [busyPlaces, setBusyPlaces] = useState(new Set());
   const [selectedPlace, setSelectedPlace] = useState(null);
+
   const [user, setUser] = useState(emptyUser);
   const [history, setHistory] = useState([]);
+  const [dates, setDates] = useState(null);
 
   return (
     <AppContext.Provider value={{
@@ -32,7 +34,9 @@ export const AppProvider = ({ children }) => {
       user,
       setUser,
       history,
-      setHistory
+      setHistory,
+      dates,
+      setDates
     }}>
       {children}
     </AppContext.Provider>

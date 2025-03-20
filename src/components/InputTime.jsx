@@ -8,7 +8,7 @@ import { compareTimes, getBusyPlaces } from '../data/helpers';
 export const InputTime = ({ label, isStart }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const {date, timeStart, setTimeStart, timeEnd, setTimeEnd, setSelectedPlace, setTimeError, setBusyPlaces} = useContext(AppContext);
+  const {dates, date, timeStart, setTimeStart, timeEnd, setTimeEnd, setSelectedPlace, setTimeError, setBusyPlaces} = useContext(AppContext);
   const time = isStart ? timeStart : timeEnd;
 
   useEffect(() => {
@@ -16,9 +16,9 @@ export const InputTime = ({ label, isStart }) => {
     if (!isCorrect) setTimeError('Неправильно указан промежуток времени');
     else setTimeError(null);
 
-    const busySet = isCorrect ? getBusyPlaces(date, timeStart, timeEnd) : new Set();
+    const busySet = (isCorrect && dates) ? getBusyPlaces(dates, date, timeStart, timeEnd) : new Set();
     setBusyPlaces(busySet);
-  }, [date, timeStart, timeEnd])
+  }, [dates, date, timeStart, timeEnd])
 
   const onChange = (_, selectedDate) => {
     setSelectedPlace(null);

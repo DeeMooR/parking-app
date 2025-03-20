@@ -52,10 +52,10 @@ export const HomeScreen = ({ navigation }) => {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 53.9262,
-          longitude: 27.652,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
+          latitude: 53.924,
+          longitude: 27.6513,
+          latitudeDelta: 0.0135,
+          longitudeDelta: 0.0135,
         }}
         mapType='standard'
         showsCompass={false}

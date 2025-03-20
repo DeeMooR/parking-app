@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { HistoryItem } from '.';

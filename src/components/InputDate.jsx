@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { SafeAreaView, Text, StyleSheet } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from '@react-navigation/native';
-import { getMaxDate } from '../data/helpers';
+import { maxDate } from '../data/config';
 import { AppContext } from '../providers/AppProvider';
 
 export const InputDate = () => {
@@ -24,7 +24,7 @@ export const InputDate = () => {
         mode='date'
         onChange={onChange}
         minimumDate={new Date()}
-        maximumDate={getMaxDate}
+        maximumDate={maxDate}
         accentColor={colors.blue}
         style={styles.datePicker}
       />

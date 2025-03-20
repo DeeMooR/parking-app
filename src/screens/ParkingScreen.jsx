@@ -1,26 +1,47 @@
-import { useContext } from 'react'
+import { useContext, useCallback } from 'react'
 import { View, Text, Alert, StyleSheet } from 'react-native'; 
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
 import { COUNT_PLACES } from '../data/config';
 import { AppContext } from '../providers/AppProvider';
+import { getDates, updateDates, updateHistory } from '../data/requests';
 
 export const ParkingScreen = () => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
-  const { timeError, busyPlaces, selectedPlace } = useContext(AppContext);
+  const { user, timeError, busyPlaces, selectedPlace, setSelectedPlace, date, setDates, timeStart, timeEnd, setHistory } = useContext(AppContext);
 
-  const onBook = () => {
+  const fetchDates = async () => {
+    const dates = await getDates();
+    if (dates) setDates(dates);
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchDates();
+      setSelectedPlace(null);
+    }, [])
+  );
+
+  const showError = (error) => {
+    Alert.alert(
+      "Ошибка бронирования", 
+      error, 
+      [{ text: "OK", style: 'cancel' }],
+    );
+  }
+
+  const onBook = async () => {
     if (timeError || !selectedPlace) {
-      const message = timeError ? 'Неверно выбран промежуток времени' : 'Необходимо выбрать место';
-      Alert.alert(
-        "Ошибка бронирования", 
-        message, 
-        [{ text: "OK", style: 'cancel'}],
-      );
+      const message = timeError ? 'Неверно указан промежуток времени' : 'Необходимо выбрать место';
+      showError(message);
       return;
     }
-    
+    const isSuccess = updateDates(date, timeStart, timeEnd, selectedPlace, showError, fetchDates, setSelectedPlace);
+    if (isSuccess) {
+      const newHistory = await updateHistory(user.id, date, timeStart, timeEnd, selectedPlace, showError);
+      if (newHistory) setHistory(newHistory);
+    }
   }
 
   return (

@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { placeRU } from '../data/config';
-import { places } from '../data/data';
+import { placeRU, places } from '../data/config';
 
 export const HistoryItem = ({ item, index }) => {
   const { colors } = useTheme();

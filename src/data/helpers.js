@@ -1,17 +1,9 @@
-import { dates } from "./data";
-
 // false если уже прошло
 export const compareDates = (date) => {
   const currentDate = new Date();
   const itemDate = new Date(`${date.split('.').reverse().join('-')}T00:00:00.000Z`);
   return itemDate > currentDate;
 }
-
-export const getMaxDate = new Date(
-  new Date().getFullYear(),
-  new Date().getMonth() + 1,
-  new Date().getDate()
-);
 
 const newDate = () => {
   const currentTime = new Date();
@@ -24,11 +16,6 @@ export const setHours = (number) => {
   date.setHours(number, 0, 0, 0);
   return date;
 }
-
-// export const addUTC = (date) => {
-//   date.setHours(date.getHours() + 3, 0, 0, 0);
-//   return date;
-// }
 
 export const checkIsMidnight = (date) => {
   return date.getHours() === 0 && date.getMinutes() === 0;
@@ -70,8 +57,7 @@ export const generateTimeIntervals = (timeStart, timeEnd) => {
   return intervals;
 };
 
-export const getBusyPlaces = (date, timeStart, timeEnd) => {
-  const newDate = getOnlyDate(date);
+export const getTimes = (timeStart, timeEnd) => {
   const newTimeStart = getOnlyTime(timeStart);
   const newTimeEnd = getOnlyTime(timeEnd);
   let times = generateTimeIntervals(newTimeStart, newTimeEnd);
@@ -79,6 +65,12 @@ export const getBusyPlaces = (date, timeStart, timeEnd) => {
   if (checkIsMidnight(timeEnd)) {
     times = generateTimeIntervals(newTimeStart, '24:00');
   }
+  return times;
+}
+
+export const getBusyPlaces = (dates, date, timeStart, timeEnd) => {
+  const newDate = getOnlyDate(date);
+  const times = getTimes(timeStart, timeEnd);
   
   let busyPlaces = new Set();
   const obj = dates[newDate];
