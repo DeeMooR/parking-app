@@ -5,8 +5,8 @@ import { AppContext } from '../providers/AppProvider';
 import { checkUser, useOrientation } from '../utils';
 
 export const LoginScreen = ({ navigation }) => {
-  const { colors, isMobile } = useOrientation();
-  const styles = createStyles(colors, isMobile);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
   const { setUser, setHistory } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
@@ -69,41 +69,41 @@ export const LoginScreen = ({ navigation }) => {
   );
 }
 
-const createStyles = (colors, isMobile) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: isMobile ? 70 : 19
+    paddingHorizontal: isLandscape ? 70 : 19
   },
   title: {
     width: '100%',
     fontWeight: 700,
     fontSize: 34,
     color: colors.brown,
-    marginBottom: isMobile ? 12 : 26
+    marginBottom: isLandscape ? 12 : 26
   },
   fields: {
-    gap: isMobile ? 12 : 20,
+    gap: isLandscape ? 12 : 20,
     width: '100%',
-    marginBottom: isMobile ? 7 : 10
+    marginBottom: isLandscape ? 7 : 10
   },
   forgotPassword: {
     width: '100%',
     textAlign: 'right',
-    marginBottom: isMobile ? 14 : 28
+    marginBottom: isLandscape ? 14 : 28
   },
   button: {
     width: '100%',
-    marginBottom: isMobile && 12
+    marginBottom: isLandscape && 12
   },
   login: {
-    position: !isMobile && 'absolute',
+    position: !isLandscape && 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    bottom: !isMobile && 80
+    bottom: !isLandscape && 80
   },
   login__text: {}
 });

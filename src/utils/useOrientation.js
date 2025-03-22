@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
 export const useOrientation = () => {
   const { colors } = useTheme();
   const { width, height } = useWindowDimensions();
-  const isMobile = width > height;
+  const isLandscape = width > height;
   
-  return { colors, isMobile };
+  return { colors, isLandscape };
 };

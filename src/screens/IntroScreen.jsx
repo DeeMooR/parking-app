@@ -6,8 +6,8 @@ import { AppContext } from '../providers/AppProvider';
 import { emptyUser, useOrientation } from '../utils';
 
 export const IntroScreen = ({ navigation }) => {
-  const { colors, isMobile } = useOrientation();
-  const styles = createStyles(colors, isMobile);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
   const { setUser, setHistory } = useContext(AppContext);
 
   useFocusEffect(
@@ -46,13 +46,13 @@ export const IntroScreen = ({ navigation }) => {
   );
 }
 
-const createStyles = (colors, isMobile) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: isMobile ? 'row' : 'column',
+    flexDirection: isLandscape ? 'row' : 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: isMobile ? 50 : 120,
+    gap: isLandscape ? 50 : 120,
     width: '100%',
     paddingHorizontal: 19
   },
@@ -62,7 +62,7 @@ const createStyles = (colors, isMobile) => StyleSheet.create({
     borderRadius: 36,
   },
   form: {
-    width: isMobile ? '45%' : '100%',
+    width: isLandscape ? '45%' : '100%',
   },
   content: {
     marginBottom: 30

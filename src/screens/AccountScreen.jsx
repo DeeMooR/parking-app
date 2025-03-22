@@ -1,13 +1,12 @@
 import { useContext, useState } from 'react';
 import { View, Alert, StyleSheet } from 'react-native'; 
-import { useTheme } from '@react-navigation/native';
 import { Header, Button, Input, InputPassword, History, ModalDelete } from '../components';
 import { AppContext } from '../providers/AppProvider';
-import { updateUser, deleteUser } from '../utils';
+import { updateUser, deleteUser, useOrientation } from '../utils';
 
 export const AccountScreen = ({ navigation }) => {
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
   const [isOpenModal, setOpenModal] = useState(false);
   const { user, history, setUser, setModalText } = useContext(AppContext);
 
@@ -51,48 +50,54 @@ export const AccountScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Header text='Личный кабинет' />
+      {!isLandscape && 
+        <View style={styles.header}>
+          <Header text='Личный кабинет' />
+        </View>
+      }
+      <View style={styles.left}>
+        <View style={styles.fields}>
+          <Input 
+            label='Имя' 
+            value={name} 
+            onChangeText={setName}
+            isSmall 
+          />
+          <Input 
+            label='Почта' 
+            value={email} 
+            onChangeText={setEmail}
+            isSmall 
+          />
+          <InputPassword 
+            value={password} 
+            onChangeText={setPassword}
+            isSmall 
+          />
+        </View>
+        <View style={styles.buttons}>
+          <Button 
+            text='Изменить' 
+            onPress={onUpdate}
+            style={styles.btnChange}
+            isSmall
+          />
+          <Button 
+            text='Удалить'
+            onPress={() => setOpenModal(true)}
+            style={styles.btnDelete}
+            isSmall
+          />
+        </View>
       </View>
-      <View style={styles.fields}>
-        <Input 
-          label='Имя' 
-          value={name} 
-          onChangeText={setName}
-          isSmall 
-        />
-        <Input 
-          label='Почта' 
-          value={email} 
-          onChangeText={setEmail}
-          isSmall 
-        />
-        <InputPassword 
-          value={password} 
-          onChangeText={setPassword}
-          isSmall 
-        />
-      </View>
-      <View style={styles.buttons}>
+      <View style={styles.right}>
+        <History />
         <Button 
-          text='Изменить' 
-          onPress={onUpdate}
-          style={styles.btnChange}
-          isSmall
-        />
-        <Button 
-          text='Удалить'
-          onPress={() => setOpenModal(true)}
-          style={styles.btnDelete}
-          isSmall
+          text='Выйти' 
+          onPress={onExit}
+          style={styles.btnExit}
         />
       </View>
-      <History />
-      <Button 
-        text='Выйти' 
-        onPress={onExit}
-        style={styles.btnExit}
-      />
       <ModalDelete 
         isOpen={isOpenModal} 
         apply={onDelete} 
@@ -102,16 +107,21 @@ export const AccountScreen = ({ navigation }) => {
   );
 }
 
-const createStyles = (colors) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    paddingHorizontal: 19,
-    marginTop: 60,
-    paddingBottom: 60,
+    paddingHorizontal: isLandscape ? 50 : 19,
+    marginTop: isLandscape ? 26 : 60,
+    paddingBottom: isLandscape ? 25 : 60,
+    flexDirection: isLandscape && 'row',
+    justifyContent: isLandscape && 'space-between'
   },
   header: {
     marginBottom: 22
+  },
+  left: {
+    width: isLandscape ? '48%' : '100%'
   },
   fields: {
     gap: 12,
@@ -130,6 +140,11 @@ const createStyles = (colors) => StyleSheet.create({
     flex: 1,
     backgroundColor: colors.red,
     borderColor: colors.red,
+  },
+  right: {
+    flex: 1,
+    maxWidth: isLandscape ? '48%' : '100%',
+    marginTop: isLandscape && 15,
   },
   btnExit: {
     width: 120,

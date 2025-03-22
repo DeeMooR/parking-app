@@ -1,9 +1,9 @@
 import { Modal, View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import { Button } from '.';
+import { useOrientation } from '../utils';
 
 export const ModalDelete = ({ isOpen, apply, close }) => {
-  const { colors } = useTheme();
+  const { colors } = useOrientation();
   const styles = createStyles(colors);
 
   return (
@@ -11,7 +11,9 @@ export const ModalDelete = ({ isOpen, apply, close }) => {
       animationType="fade"
       transparent={true}
       visible={isOpen}
-      onRequestClose={close}>
+      onRequestClose={close}
+      supportedOrientations={['landscape', 'portrait']}
+    >
       <View style={styles.modal}>
         <View style={styles.modal__view}>
           <Text style={styles.title}>Удаление аккаунта</Text>
@@ -48,6 +50,7 @@ const createStyles = (colors) => StyleSheet.create({
     margin: 20,
     padding: 30,
     paddingTop: 35,
+    maxWidth: 450,
     backgroundColor: colors.white,
     borderRadius: 20,
     borderWidth: 3,

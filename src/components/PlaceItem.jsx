@@ -1,12 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { placeTypes } from '../utils';
 import { AppContext } from '../providers/AppProvider';
+import { placeTypes, useOrientation } from '../utils';
 
 export const PlaceItem = ({ place, isEven, isBusy }) => {
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
   const { id, type } = place;
 
   const {selectedPlace, setSelectedPlace} = useContext(AppContext);
@@ -66,17 +65,17 @@ export const PlaceItem = ({ place, isEven, isBusy }) => {
   )
 }
 
-const createStyles = (colors) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   container: {
     width: '25%',
     paddingTop: 5,
-    paddingBottom: 6,
+    paddingBottom: isLandscape ? 4 : 6,
   },
   place: {
     alignItems: 'center',
     justifyContent: 'center',
     width: '80%',
-    height: 34,
+    height: isLandscape ? 32 : 34,
     marginHorizontal: 3,
     borderRadius: 8,
     borderWidth: 1.5,

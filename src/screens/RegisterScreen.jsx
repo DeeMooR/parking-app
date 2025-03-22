@@ -5,8 +5,8 @@ import { AppContext } from '../providers/AppProvider';
 import { createUser, useOrientation } from '../utils';
 
 export const RegisterScreen = ({ navigation }) => {
-  const { colors, isMobile } = useOrientation();
-  const styles = createStyles(colors, isMobile);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
   const { setModalText } = useContext(AppContext);
 
   const [name, setName] = useState('');
@@ -87,34 +87,34 @@ export const RegisterScreen = ({ navigation }) => {
   );
 }
 
-const createStyles = (colors, isMobile) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: isMobile ? 70 : 19
+    paddingHorizontal: isLandscape ? 70 : 19
   },
   title: {
     width: '100%',
     fontWeight: 700,
     fontSize: 34,
     color: colors.brown,
-    marginBottom: isMobile ? 12 : 26
+    marginBottom: isLandscape ? 12 : 26
   },
   fields: {
-    flexWrap: isMobile && 'wrap',
-    flexDirection: isMobile && 'row',
+    flexWrap: isLandscape && 'wrap',
+    flexDirection: isLandscape && 'row',
     justifyContent: 'space-between',
-    gap: isMobile ? 12 : 20,
+    gap: isLandscape ? 12 : 20,
     width: '100%',
-    marginBottom: isMobile ? 12 : 36
+    marginBottom: isLandscape ? 12 : 36
   },
   name: {
-    width: isMobile && '49%'
+    width: isLandscape && '49%'
   },
   email: {
-    width: isMobile && '49%'
+    width: isLandscape && '49%'
   },
   conditions: {
     width: '100%',
@@ -122,14 +122,14 @@ const createStyles = (colors, isMobile) => StyleSheet.create({
   },
   button: {
     width: '100%',
-    marginBottom: isMobile && 10
+    marginBottom: isLandscape && 10
   },
   login: {
-    position: !isMobile && 'absolute',
+    position: !isLandscape && 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    bottom: !isMobile && 80
+    bottom: !isLandscape && 80
   },
   login__text: {}
 });

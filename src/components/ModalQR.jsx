@@ -1,17 +1,19 @@
 import { Modal, View, Text, Image, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import { Link } from '.';
+import { useOrientation } from '../utils';
 
 export const ModalQR = ({ isOpen, close }) => {
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
 
   return (
     <Modal
       animationType="fade"
       transparent={true}
       visible={isOpen}
-      onRequestClose={close}>
+      onRequestClose={close}
+      supportedOrientations={['landscape', 'portrait']}
+    >
       <View style={styles.modal}>
         <View style={styles.modal__view}>
           <Image
@@ -31,7 +33,7 @@ export const ModalQR = ({ isOpen, close }) => {
   )
 }
 
-const createStyles = (colors) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: 'center',
@@ -42,7 +44,8 @@ const createStyles = (colors) => StyleSheet.create({
     alignItems: 'center',
     margin: 20,
     padding: 30,
-    paddingTop: 35,
+    paddingTop: isLandscape ? 25 : 35,
+    paddingBottom: isLandscape && 25,
     backgroundColor: colors.white,
     borderRadius: 20,
     shadowColor: colors.black,
@@ -54,7 +57,7 @@ const createStyles = (colors) => StyleSheet.create({
     shadowRadius: 5,
   },
   image: {
-    marginBottom: 20
+    marginBottom: isLandscape ? 15 : 20
   },
   title: {
     fontWeight: 600,
@@ -63,9 +66,9 @@ const createStyles = (colors) => StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    marginBottom: 25,
+    marginBottom: isLandscape ? 15 : 25,
   },
   button: {
-    fontSize: 18
+    fontSize: isLandscape ? 17 : 18
   }
 });

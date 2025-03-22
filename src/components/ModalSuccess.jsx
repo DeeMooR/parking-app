@@ -5,8 +5,8 @@ import { AppContext } from "../providers/AppProvider";
 import { useOrientation } from "../utils";
 
 export const ModalSuccess = () => {
-  const { colors, isMobile } = useOrientation();
-  const styles = createStyles(colors, isMobile);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
   const { modalText, setModalText } = useContext(AppContext); 
   const [translateY] = useState(new Animated.Value(-100));
 
@@ -20,7 +20,7 @@ export const ModalSuccess = () => {
 
   useEffect(() => {
     if (modalText) {
-      animateModal(isMobile ? 22 : 55);
+      animateModal(isLandscape ? 22 : 55);
       const timer = setTimeout(() => {
         setModalText(null);
         animateModal(-100);
@@ -37,7 +37,7 @@ export const ModalSuccess = () => {
   );
 };
 
-const createStyles = (colors, isMobile) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   modal: {
     position: "absolute",
     backgroundColor: colors.white,
@@ -47,7 +47,7 @@ const createStyles = (colors, isMobile) => StyleSheet.create({
     gap: 9,
     paddingVertical: 15,
     paddingHorizontal: 20,
-    maxWidth: isMobile ? 500 : 320,
+    maxWidth: isLandscape ? 500 : 320,
     borderRadius: 15,
     borderColor: colors.grey,
     borderWidth: 1,

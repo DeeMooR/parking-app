@@ -1,22 +1,23 @@
 import { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'; 
-import { useTheme } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 import { Header, Button, ModalQR } from '../components';
 import { AppContext } from '../providers/AppProvider';
+import { useOrientation } from '../utils';
 
 export const HomeScreen = ({ navigation }) => {
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
+  const { colors, isLandscape } = useOrientation();
+  const styles = createStyles(colors, isLandscape);
   const { user } = useContext(AppContext);
   const [isOpenModal, setOpenModal] = useState(false);
   const [imageHeight, setImageHeight] = useState(0);
 
   useEffect(() => {
-    const screenWidth = Dimensions.get('window').width;
-    const imageWidth = (screenWidth - 38)*0.56;
-    setImageHeight(imageWidth)
-  }, []);
+    let sceneWidth = Dimensions.get('window').width;
+    const imageWidth = isLandscape ? (sceneWidth - 120)*0.49 : sceneWidth - 38
+    const imageHeight = imageWidth*0.56;
+    setImageHeight(imageHeight)
+  }, [isLandscape]);
 
   const closeModal = () => {
     setOpenModal(false);
@@ -24,61 +25,72 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Header text={`Привет, ${user.name}! 👋`} />
-      </View>
-      <Image
-        source={require('@/assets/parkingMain.jpg')}
-        style={[styles.image, { height: imageHeight }]}
-      />
-      <View style={styles.buttons}>
-        <Button 
-          text='Паркинг' 
-          navigate='Parking' 
-          navigation={navigation}  
-          style={styles.btnParking}
+      {!isLandscape && 
+        <View style={styles.header}>
+          <Header text={`Привет, ${user.name}! 👋`} />
+        </View>
+      }
+      <View style={styles.left}>
+        <Image
+          source={require('@/assets/parkingMain.jpg')}
+          style={[styles.image, { height: imageHeight }]}
         />
-        <Button 
-          text='QR код' 
-          onPress={() => setOpenModal(true)}
-          style={styles.btnQR}
-          isGrey
-        />
+        <View style={styles.buttons}>
+          <Button 
+            text='Паркинг' 
+            navigate='Parking' 
+            navigation={navigation}  
+            style={styles.btnParking}
+          />
+          <Button 
+            text='QR код' 
+            onPress={() => setOpenModal(true)}
+            style={styles.btnQR}
+            isGrey
+          />
+        </View>
       </View>
-      <View>
-        <Text style={styles.map__title}>Мы на карте</Text>
-        <Text style={styles.map__text}>Минск, ул. Петра Мстиславца, 11</Text>
+      <View style={styles.right}>
+        <View>
+          <Text style={styles.map__title}>Мы на карте</Text>
+          <Text style={styles.map__text}>Минск, ул. Петра Мстиславца, 11</Text>
+        </View>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: isLandscape ? 53.9318 : 53.9232,
+            longitude: 27.6513,
+            latitudeDelta: isLandscape ? 0.008 : 0.0135,
+            longitudeDelta: isLandscape ? 0.008 : 0.0135,
+          }}
+          mapType='standard'
+          showsCompass={false}
+        >
+          <Marker
+            coordinate={{ latitude: 53.933624, longitude: 27.652157 }}
+            title="Urban Garage"
+            description="Паркинг"
+          />
+        </MapView>
       </View>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 53.924,
-          longitude: 27.6513,
-          latitudeDelta: 0.0135,
-          longitudeDelta: 0.0135,
-        }}
-        mapType='standard'
-        showsCompass={false}
-      >
-        <Marker
-          coordinate={{ latitude: 53.933624, longitude: 27.652157 }}
-          title="Urban Garage"
-          description="Паркинг"
-        />
-      </MapView>
       <ModalQR isOpen={isOpenModal} close={closeModal} />
     </View>
   );
 }
 
-const createStyles = (colors) => StyleSheet.create({
+const createStyles = (colors, isLandscape) => StyleSheet.create({
   container: {
     width: '100%',
-    paddingHorizontal: 19,
-    marginTop: 60
+    paddingHorizontal: isLandscape ? 60 : 19,
+    marginTop: isLandscape ? 30 : 60,
+    flexDirection: isLandscape && 'row',
+    justifyContent: isLandscape && 'space-between'
   },
   header: {
     marginBottom: 20
+  },
+  left: {
+    width: isLandscape ? '47%' : '100%'
   },
   image: {
     width: '100%',
@@ -87,22 +99,25 @@ const createStyles = (colors) => StyleSheet.create({
     marginBottom: 20
   },
   buttons: {
-    width: '75%',
+    width: isLandscape ? '100%' : '75%',
     flexDirection: 'row',
     gap: 20,
     marginBottom: 52
   },
   btnParking: {
-    flex: 3
+    flex: isLandscape ? 4 : 3
   },
   btnQR: {
     flex: 2,
     backgroundColor: colors.blueGrey,
     borderColor: colors.blueGrey,
   },
+  right: {
+    width: isLandscape ? '47%' : '100%'
+  },
   map__title: {
     fontWeight: 700,
-    fontSize: 22,
+    fontSize: isLandscape ? 26 : 22,
     color: colors.brown,
     marginBottom: 6
   },
