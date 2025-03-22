@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
-import { View, Text, Alert, StyleSheet } from 'react-native';
+import { View, Text, Alert, Platform, StyleSheet } from 'react-native';
 import { Input, InputPassword, Button, Link, RadioButton } from '../components';
 import { AppContext } from '../providers/AppProvider';
 import { createUser, useOrientation } from '../utils';
 
 export const RegisterScreen = ({ navigation }) => {
   const { colors, isLandscape } = useOrientation();
-  const styles = createStyles(colors, isLandscape);
+  const isIOS = Platform.OS === 'ios';
+  const styles = createStyles(colors, isLandscape, isIOS);
   const { setModalText } = useContext(AppContext);
 
   const [name, setName] = useState('');
@@ -87,11 +88,12 @@ export const RegisterScreen = ({ navigation }) => {
   );
 }
 
-const createStyles = (colors, isLandscape) => StyleSheet.create({
+const createStyles = (colors, isLandscape, isIOS) => StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: isIOS && 'center',
+    marginTop: !isIOS && '40%',
     width: '100%',
     paddingHorizontal: isLandscape ? 70 : 19
   },
@@ -125,11 +127,12 @@ const createStyles = (colors, isLandscape) => StyleSheet.create({
     marginBottom: isLandscape && 10
   },
   login: {
-    position: !isLandscape && 'absolute',
+    position: !isLandscape && isIOS && 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    bottom: !isLandscape && 80
+    bottom: !isLandscape && isIOS && 80,
+    marginTop: !isLandscape && !isIOS && 40,
   },
   login__text: {}
 });

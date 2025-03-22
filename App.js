@@ -12,6 +12,7 @@ const MyTheme = {
     white: '#fff',
     black: '#2F2F2F',
     grey: '#d8dadc',
+    placeholder: '#9e9e9e',
     blue: '#40B7AA',
     blueOpacity: '#40B7AAb3',
     blueGrey: '#678e9692',

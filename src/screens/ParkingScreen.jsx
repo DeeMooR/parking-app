@@ -1,7 +1,7 @@
 import { useContext, useCallback, useState } from 'react'
 import { View, Text, Alert, ActivityIndicator, StyleSheet } from 'react-native'; 
 import { useFocusEffect } from '@react-navigation/native';
-import { Header, Button, Places, PlaceSample, InputDate, InputTime } from '../components';
+import { Header, Button, Places, PlaceSample, InputDate, TimeBlock } from '../components';
 import { AppContext } from '../providers/AppProvider';
 import { COUNT_PLACES, getDates, updateDates, updateHistory, useOrientation } from '../utils';
 
@@ -84,11 +84,7 @@ export const ParkingScreen = () => {
         </View>
         <View style={styles.inputs}>
           <InputDate />
-          <View style={styles.inputs__time}>
-            <InputTime label='Время' isStart />
-            <Text style={styles.inputs__line}>–</Text>
-            <InputTime />
-          </View>
+          <TimeBlock />
         </View>
         <View style={styles.time__error}>
           {timeError &&
@@ -157,14 +153,6 @@ const createStyles = (colors, isLandscape) => StyleSheet.create({
     flexDirection: 'row',
     gap: 35,
     marginBottom: 8
-  },
-  inputs__time: {
-    flexDirection: 'row',
-    gap: 10
-  },
-  inputs__line: {
-    fontSize: 20,
-    paddingTop: 29
   },
   time__error: {
     height: 18,
