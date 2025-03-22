@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'; 
+import { View, Text, Image, StyleSheet, Platform, Dimensions } from 'react-native'; 
 import MapView, { Marker } from 'react-native-maps';
 import { Header, Button, ModalQR } from '../components';
 import { AppContext } from '../providers/AppProvider';
@@ -55,23 +55,30 @@ export const HomeScreen = ({ navigation }) => {
           <Text style={styles.map__title}>Мы на карте</Text>
           <Text style={styles.map__text}>Минск, ул. Петра Мстиславца, 11</Text>
         </View>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: isLandscape ? 53.9318 : 53.9232,
-            longitude: 27.6513,
-            latitudeDelta: isLandscape ? 0.008 : 0.0135,
-            longitudeDelta: isLandscape ? 0.008 : 0.0135,
-          }}
-          mapType='standard'
-          showsCompass={false}
-        >
-          <Marker
-            coordinate={{ latitude: 53.933624, longitude: 27.652157 }}
-            title="Urban Garage"
-            description="Паркинг"
+        {Platform.OS === 'android' ? (
+          <Image
+            source={require('@/assets/map.png')}
+            style={styles.map_image}
           />
-        </MapView>
+        ) : (
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: isLandscape ? 53.9318 : 53.9232,
+              longitude: 27.6513,
+              latitudeDelta: isLandscape ? 0.008 : 0.0135,
+              longitudeDelta: isLandscape ? 0.008 : 0.0135,
+            }}
+            mapType='standard'
+            showsCompass={false}
+          >
+            <Marker
+              coordinate={{ latitude: 53.933624, longitude: 27.652157 }}
+              title="Urban Garage"
+              description="Паркинг"
+            />
+          </MapView>
+        )}
       </View>
       <ModalQR isOpen={isOpenModal} close={closeModal} />
     </View>
@@ -114,6 +121,10 @@ const createStyles = (colors, isLandscape) => StyleSheet.create({
   },
   right: {
     width: isLandscape ? '47%' : '100%'
+  },
+  map_image: {
+    width: '100%',
+    height: isLandscape ? '70%' : '52%'
   },
   map__title: {
     fontWeight: 700,
